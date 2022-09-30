@@ -1,3 +1,5 @@
+{-# LANGUAGE UndecidableInstances #-}
+
 {-|
     Large Library of conversion between various types and Nouns.
 -}
@@ -34,6 +36,7 @@ import GHC.Exts         (chr#, isTrue#, leWord#, word2Int#)
 import GHC.Natural      (Natural)
 import GHC.Types        (Char(C#))
 import GHC.Word         (Word32(W32#))
+import GHC.Tuple        (Unit(..))
 import Prelude          ((!!))
 import RIO.FilePath     (joinPath, splitDirectories, takeBaseName,
                          takeDirectory, takeExtension)
@@ -54,7 +57,6 @@ instance ToNoun Noun where
 
 instance FromNoun Noun where
   parseNoun = pure
-
 
 --- Atom -----------------------------------------------------------------------
 
@@ -745,6 +747,13 @@ instance FromNoun () where
     parseNoun = named "()" . \case
         Atom 0 -> pure ()
         x      -> fail ("expecting `~`, but got " <> show x)
+
+-- 1-tuples (GHC.Tuple.Unit) created by template haskell
+instance {-# OVERLAPPING #-} ToNoun a => ToNoun (Unit a) where
+    toNoun (Unit a) = toNoun a
+
+instance {-# OVERLAPPING #-} FromNoun a => FromNoun (Unit a) where
+    parseNoun = fmap Unit . parseNoun
 
 instance (ToNoun a, ToNoun b) => ToNoun (a, b) where
     toNoun (x, y) = Cell (toNoun x) (toNoun y)

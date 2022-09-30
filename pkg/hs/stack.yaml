@@ -1,4 +1,11 @@
-resolver: lts-16.15
+resolver: lts-18.28
+# allow-newer: true
+
+extra-lib-dirs:
+  - /opt/homebrew/lib
+
+extra-include-dirs:
+  - /opt/homebrew/include
 
 packages:
   - natpmp-static
@@ -14,11 +21,17 @@ packages:
   - urbit-noun-core
 
 extra-deps:
-  - base58-bytestring-0.1.0@sha256:a1da72ee89d5450bac1c792d9fcbe95ed7154ab7246f2172b57bd4fd9b5eab79
   - lock-file-0.7.0.0@sha256:3ad84b5e454145e1d928063b56abb96db24a99a21b493989520e58fa0ab37b00
   - para-1.1@sha256:a90eebb063ad70271e6e2a7f00a93e8e8f8b77273f100f39852fbf8301926f81
-  - web3-0.9.1.0@sha256:6b7faac0b63e7d0aae46588dd9a42e11f54ce0fdf4c2744bdf4cc6c5cbf39aa2
-  - vinyl-0.12.3@sha256:66553fc71cabfa86837bf5f98558e3e6d1807c47af5f5f1cd758081d3fb023ea
+  - web3-ethereum-1.0.0.0@sha256:cf7217ff9f9eb0d5ceefe3d15d6c5055f29ad4d3acb0f1faec792e933fdf39ba,5838
+  - jsonrpc-tinyclient-1.0.0.0@sha256:7ce2f20d45648bfb08896c99f41e78a9b08c6ac846235977d1e925e1c7817753,1662
+  - memory-hexstring-1.0.0.0@sha256:397a423dfd361b75cf73e99613a55b1fa87b7551edf46ea43d1f7e9f5d07b924,1677
+  - scale-1.0.0.0@sha256:7a2f1476772636dc85de4df613a6a5dd460e58a3772974d8a067fc509a5449fd,3433
+  - web3-crypto-1.0.0.0@sha256:51eb8371591e3039b68715c7960c6fc550b2297ca5c56714f26df7d4fc91cee3,3988
+  - web3-solidity-1.0.0.0@sha256:1fad7f03221bdf279a250572616f79ed0fe104114c075506942bde833d85cd36,4503
+  # https://github.com/solatis/haskell-hexstring/issues/3
+  - git: https://github.com/reach-sh/haskell-hexstring.git
+    commit: 085c16fb21b9f856a435a3faab980e7e0b319341
 
 # This allows building on NixOS.
 nix:
@@ -29,3 +42,5 @@ nix:
 # TODO: Why is this here?
 ghc-options:
   urbit-king: '-optP-Wno-nonportable-include-path'
+  # to see template haskell expansions
+  # urbit-noun: -ddump-splices

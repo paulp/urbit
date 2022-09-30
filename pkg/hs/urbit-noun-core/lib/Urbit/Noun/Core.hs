@@ -87,7 +87,7 @@ instance Show Noun where
 
       showAtom :: Atom -> String
       showAtom 0 = "0"
-      showAtom a | a >= 2^1024 = "\"...\""
+      showAtom a | a >= (2^1024 :: Atom) = "\"...\""
       showAtom a =
           let mTerm = do
                 t <- utf8AtomToText (Atom a)

@@ -8,7 +8,7 @@ library:
 
 dependencies:
   - base
-  - web3
+  - web3-ethereum
 
 default-extensions:
   - ApplicativeDo

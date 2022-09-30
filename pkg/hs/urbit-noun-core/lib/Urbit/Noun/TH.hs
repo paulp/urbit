@@ -226,11 +226,17 @@ tagNoun = AppE (VarE 'textToUtf8Atom)
         . LitE
         . StringL
 
+-- Don't make 1-tuples
+mkTup :: [Exp] -> Exp
+mkTup = \case
+    e : [] -> e
+    es     -> TupE (fmap Just es)
+
 tagTup :: String -> [Name] -> Exp
-tagTup tag args = AppE (VarE 'toNoun) $ TupE (tagNoun tag : fmap VarE args)
+tagTup tag args = AppE (VarE 'toNoun) $ mkTup (tagNoun tag : fmap VarE args)
 
 tup :: [Name] -> Exp
-tup = AppE (VarE 'toNoun) . TupE . fmap VarE
+tup = AppE (VarE 'toNoun) . mkTup . fmap VarE
 
 --------------------------------------------------------------------------------
 
